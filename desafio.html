@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Desafio de 7 dias</title>
+<meta name="theme-color" content="#1f4030">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="stylesheet" href="style.css">
+<style>
+.hoje{display:flex;align-items:center;gap:14px;background:var(--verde);color:#fff;border-radius:18px;padding:14px 18px;margin-bottom:16px}
+.hoje .dia{font-family:Georgia,serif;font-size:44px;line-height:1;color:var(--dourado)}
+.hoje small{display:block;opacity:.85;font-size:15px}
+.trilha{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:16px}
+.bola{aspect-ratio:1;border-radius:50%;border:2px solid #d9ccb5;background:var(--branco);color:var(--verde);font-family:Georgia,serif;font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;padding:0}
+.bola.atual{border-color:var(--dourado);box-shadow:0 0 0 4px rgba(196,154,90,.25)}
+.bola.ok{background:var(--oliva);border-color:var(--oliva);color:#fff}
+.bola.sel{transform:scale(1.1)}
+.tarefa .rotulo{font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--dourado)}
+.tarefa h3{margin:4px 0 8px;font-size:24px}
+.presente{text-align:center;background:linear-gradient(160deg,#fff7e6,#f6e3bd);border:1px solid #e6cf9b;border-radius:18px;padding:22px;margin-top:14px}
+.presente .caixa{font-size:56px;display:inline-block;animation:pula 1.2s ease infinite}
+@keyframes pula{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-10px) rotate(4deg)}}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;font-size:15px}
+.cal b{font-weight:600;color:var(--dourado);font-size:12px;letter-spacing:1px}
+.cal span{padding:6px 0;border-radius:10px}
+.cal .h{background:var(--verde);color:#fff;font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topo"><a class="voltar" href="index.html" aria-label="Voltar">‹</a><div class="nome">Desafio de 7 dias</div></div>
+
+  <div class="hoje"><div class="dia" id="dd">--</div><div><b id="ds"></b><small id="dm"></small></div></div>
+  <details><summary>📅 Ver o mês</summary><div class="cal" id="cal" style="margin-top:12px"></div></details>
+
+  <h2 style="margin-top:6px">Lidere com mais clareza</h2>
+  <p style="margin-bottom:14px">Uma ação pequena por dia. Toque no dia para ver e conclua quando fizer.</p>
+  <div class="trilha" id="trilha"></div>
+  <div class="card tarefa fade" id="tarefa"></div>
+  <div id="premio"></div>
+  <button class="btn claro" id="zera">Recomeçar desafio</button>
+  <p class="aviso">Sugestões gerais para o dia a dia de liderança.</p>
+  <p class="rodape">Feito por Eve, imagem e marca</p>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+var D=[
+['Escuta','Converse 10 minutos com alguém da equipe, sem pauta. Só ouça.'],
+['Clareza','Reescreva uma meta em uma frase simples e confirme com a pessoa responsável.'],
+['Reconhecimento','Elogie algo específico que alguém fez. Diga o que foi bom e por quê.'],
+['Limites','Cancele ou encurte uma reunião que não era necessária.'],
+['Feedback','Dê um feedback: o que aconteceu, qual o impacto e o próximo passo.'],
+['Delegação','Delegue uma tarefa combinando resultado esperado, prazo e apoio.'],
+['Pausa','Revise a semana: o que funcionou? O que você repetiria com a equipe?']
+];
+var MSG=['Ótimo começo!','Muito bem, você está no ritmo!','Mais um dia! Sua equipe sente.','Metade do caminho, parabéns!','Você está firme, continue!','Falta só um! Que orgulho!','Desafio concluído! 🎉'];
+var KEY='cs_desafio',ok=[];
+try{ok=JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){}
+var sel=null;
+function prox(){for(var k=0;k<7;k++)if(!ok[k])return k;return 6}
+function toast(t){var e=document.getElementById('toast');e.textContent=t;e.classList.add('on');setTimeout(function(){e.classList.remove('on')},2200)}
+function desenha(){
+  if(sel===null)sel=prox();
+  var at=prox(),tr=document.getElementById('trilha');tr.innerHTML='';
+  D.forEach(function(d,k){
+    var b=document.createElement('button');b.className='bola'+(ok[k]?' ok':'')+(k===at&&!ok[k]?' atual':'')+(k===sel?' sel':'');
+    b.textContent=ok[k]?'✓':(k+1);b.onclick=function(){sel=k;desenha()};tr.appendChild(b);
+  });
+  var d=D[sel];
+  var h='<div class="rotulo">Dia '+(sel+1)+' · '+d[0]+'</div><h3>'+d[0]+'</h3><p>'+d[1]+'</p>';
+  h+=ok[sel]?'<button class="btn claro" id="des">Desmarcar</button>':'<button class="btn" id="fim">Concluí este dia</button>';
+  document.getElementById('tarefa').innerHTML=h;
+  var f=document.getElementById('fim');if(f)f.onclick=function(){ok[sel]=true;salva();toast(MSG[sel]);var n=ok.filter(Boolean).length;if(n<7){sel=prox()}desenha()};
+  var x=document.getElementById('des');if(x)x.onclick=function(){ok[sel]=false;salva();desenha()};
+  var feito=ok.filter(Boolean).length===7;
+  document.getElementById('premio').innerHTML=feito?'<div class="presente fade"><div class="caixa">🎁</div><h3>Você concluiu os 7 dias!</h3><p style="margin:8px 0">A Cris preparou um presente para você.</p><a class="btn ouro" href="cadastro.html?i=Mentoria%20de%20lideran%C3%A7as&m='+encodeURIComponent('Olá, Cristiane! Concluí o Desafio de 7 dias e quero meu presente.')+'">Resgatar meu presente</a></div>':'';
+}
+function salva(){try{localStorage.setItem(KEY,JSON.stringify(ok))}catch(e){}}
+document.getElementById('zera').onclick=function(){ok=[];sel=null;salva();desenha()};
+// calendário
+var hj=new Date(),ms=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'],ds=['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'];
+document.getElementById('dd').textContent=hj.getDate();
+document.getElementById('ds').textContent='Hoje é '+ds[hj.getDay()];
+document.getElementById('dm').textContent=ms[hj.getMonth()]+' de '+hj.getFullYear();
+var c=document.getElementById('cal'),ch='';
+['D','S','T','Q','Q','S','S'].forEach(function(x){ch+='<b>'+x+'</b>'});
+var p=new Date(hj.getFullYear(),hj.getMonth(),1).getDay(),n=new Date(hj.getFullYear(),hj.getMonth()+1,0).getDate();
+for(var i=0;i<p;i++)ch+='<span></span>';
+for(var j=1;j<=n;j++)ch+='<span'+(j===hj.getDate()?' class="h"':'')+'>'+j+'</span>';
+c.innerHTML=ch;
+desenha();
+</script>
+</body>
+</html>

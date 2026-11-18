@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Falar com a Cris</title>
+<meta name="theme-color" content="#1f4030">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <div class="topo"><a class="voltar" href="index.html" aria-label="Voltar">‹</a><div class="nome">Falar com a Cris</div></div>
+  <h2>Deixe seu contato</h2>
+  <p style="margin-bottom:16px">A Cris retorna para você em breve.</p>
+  <form id="f" class="card" autocomplete="on">
+    <label for="nome">Nome</label><input id="nome" required autocomplete="name">
+    <label for="zap">Telefone</label><input id="zap" type="tel" inputmode="tel" autocomplete="tel">
+    <label for="email">E-mail</label><input id="email" type="email" required autocomplete="email">
+    <label for="emp">Empresa (se tiver)</label><input id="emp">
+    <label for="int">Tenho interesse em</label>
+    <select id="int"><option>Psicoterapia</option><option>Mentoria de lideranças</option><option>Treinamentos e palestras</option><option>Consultoria de RH / NR-1</option></select>
+    <label for="msg">Mensagem (opcional)</label><input id="msg">
+    <label class="check"><input type="checkbox" id="ok" required><span>Aceito receber contato da Cris. Meus dados serão usados só para isso. Não envio nenhuma informação de saúde.</span></label>
+    <button class="btn" type="submit">Enviar</button>
+  </form>
+  <p id="msg2" class="aviso" style="font-size:17px;color:var(--verde)"></p>
+  <p class="rodape">Feito por Eve, imagem e marca</p>
+</div>
+<iframe name="oculto" style="display:none"></iframe>
+<script>
+// Quando o formulário Google estiver pronto, preencha FORM_URL (termina em /formResponse) e os ids entry.NNN.
+var FORM_URL='';
+var ENTRY={nome:'',zap:'',email:'',emp:'',int:'',msg:''};
+var q=new URLSearchParams(location.search);
+if(q.get('i')){var sl=document.getElementById('int');for(var o=0;o<sl.options.length;o++)if(sl.options[o].text===q.get('i'))sl.selectedIndex=o}
+if(q.get('m'))document.getElementById('msg').value=q.get('m');
+function v(id){var x=document.getElementById(id).value.trim();return x||'-'}
+document.getElementById('f').onsubmit=function(e){
+  e.preventDefault();
+  if(!FORM_URL){document.getElementById('msg2').textContent='O formulário ainda está sendo conectado. Volte em breve!';return}
+  var d={nome:v('nome'),zap:v('zap'),email:v('email'),emp:v('emp'),int:v('int'),msg:v('msg')};
+  var f=document.createElement('form');f.method='POST';f.action=FORM_URL;f.target='oculto';
+  function add(n,val){var i=document.createElement('input');i.type='hidden';i.name=n;i.value=val;f.appendChild(i)}
+  for(var k in d)add(ENTRY[k],d[k]);add('fvv','1');add('pageHistory','0');
+  document.body.appendChild(f);f.submit();
+  document.getElementById('msg2').textContent='Enviado! Obrigada, a Cris entra em contato em breve.';
+  document.getElementById('f').reset();
+};
+</script>
+</body>
+</html>

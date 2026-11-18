@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Preparo para a NR-1</title>
+<meta name="theme-color" content="#1f4030">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="stylesheet" href="style.css">
+<style>
+.anel{width:150px;height:150px;margin:6px auto 4px;position:relative}
+.anel svg{transform:rotate(-90deg)}
+.anel circle{fill:none;stroke-width:12}
+.anel .fundo{stroke:var(--areia)}
+.anel .valor{stroke:var(--dourado);stroke-linecap:round;transition:stroke-dashoffset .6s}
+.anel .num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:34px;color:var(--verde)}
+.leitura{text-align:center;font-family:Georgia,serif;font-size:20px;color:var(--verde);margin-bottom:16px;min-height:56px}
+.item{display:flex;gap:14px;align-items:flex-start;width:100%;text-align:left;background:var(--branco);border:1.5px solid #e2d9c8;border-radius:14px;padding:14px;margin-bottom:10px;font-size:17px;color:var(--texto);cursor:pointer;font-family:inherit;transition:all .15s}
+.item .caixa{flex:0 0 28px;height:28px;border-radius:8px;border:2px solid var(--oliva);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;transition:all .15s}
+.item.on{background:#eef2e8;border-color:var(--oliva)}
+.item.on .caixa{background:var(--oliva)}
+.item small{display:block;color:#7b857e;font-size:14px;margin-top:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topo"><a class="voltar" href="index.html" aria-label="Voltar">‹</a><div class="nome">Preparo para a NR-1</div></div>
+  <details><summary>O que é a NR-1?</summary><p>É a norma que organiza o gerenciamento de riscos no trabalho. Hoje ela inclui os riscos psicossociais, como sobrecarga, assédio e conflitos, que as empresas precisam identificar e acompanhar.</p></details>
+  <h2 style="margin-top:18px">Marque o que sua empresa já faz</h2>
+  <div class="anel"><svg width="150" height="150" viewBox="0 0 150 150"><circle class="fundo" cx="75" cy="75" r="64"/><circle class="valor" id="v" cx="75" cy="75" r="64" stroke-dasharray="402" stroke-dashoffset="402"/></svg><div class="num" id="n">0%</div></div>
+  <div class="leitura" id="l"></div>
+  <div id="lista"></div>
+  <a class="btn ouro" id="wa" href="#">Quero falar com a Cris</a>
+  <button class="btn claro" id="zera">Recomeçar</button>
+  <p class="aviso">Orientação geral. Não é parecer jurídico nem substitui consultoria. Cada empresa tem as suas particularidades.</p>
+  <p class="rodape">Feito por Eve, imagem e marca</p>
+</div>
+<script>
+var IT=[
+['Inventário de riscos atualizado','O levantamento de riscos da empresa (GRO/PGR) está em dia.'],
+['Riscos psicossociais identificados','Sobrecarga, metas abusivas, conflitos e assédio foram mapeados.'],
+['Escuta dos trabalhadores','As pessoas participaram do levantamento e foram ouvidas.'],
+['Canal seguro de escuta e denúncia','Existe um caminho confiável para relatar situações.'],
+['Política contra assédio divulgada','A equipe conhece a política e sabe como ela funciona.'],
+['Líderes preparados','Líderes sabem conversar sobre pressão, limites e feedback.'],
+['Metas e prazos revisados','A carga real de trabalho é considerada ao definir metas.'],
+['Plano de ação com responsáveis e datas','Cada risco tem uma ação, uma pessoa e um prazo.'],
+['Acompanhamento periódico','Clima, afastamentos e rotatividade são observados com frequência.'],
+['Registros documentados','O que foi feito fica registrado e acessível.']
+];
+var KEY='cs_nr1',est=[];
+try{est=JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){}
+var lista=document.getElementById('lista');
+function desenha(){
+  lista.innerHTML='';
+  IT.forEach(function(x,k){
+    var b=document.createElement('button');b.className='item'+(est[k]?' on':'');
+    b.innerHTML='<span class="caixa">'+(est[k]?'✓':'')+'</span><span>'+x[0]+'<small>'+x[1]+'</small></span>';
+    b.onclick=function(){est[k]=!est[k];try{localStorage.setItem(KEY,JSON.stringify(est))}catch(e){}desenha()};
+    lista.appendChild(b);
+  });
+  var t=est.filter(Boolean).length,p=Math.round(t/IT.length*100);
+  document.getElementById('v').style.strokeDashoffset=402-402*p/100;
+  document.getElementById('n').textContent=p+'%';
+  var m=p==0?'Marque o que já existe na sua empresa.':p<40?'Ponto de partida. Vale começar pelo mapeamento dos riscos.':p<80?'Você já avançou. Falta organizar e documentar o restante.':'Muito bem! Continue acompanhando e atualizando.';
+  document.getElementById('l').textContent=m;
+  document.getElementById('wa').href='cadastro.html?i=Consultoria%20de%20RH%20%2F%20NR-1&m='+encodeURIComponent('Olá, Cristiane! No checklist da NR-1 minha empresa marcou '+t+' de '+IT.length+' itens ('+p+'%). Quero conversar.');
+}
+document.getElementById('zera').onclick=function(){est=[];try{localStorage.removeItem(KEY)}catch(e){}desenha()};
+desenha();
+</script>
+</body>
+</html>

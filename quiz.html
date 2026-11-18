@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Clima da sua equipe</title>
+<meta name="theme-color" content="#1f4030">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="stylesheet" href="style.css">
+<style>
+.pergunta{font-family:Georgia,serif;font-size:24px;color:var(--verde);margin:6px 0 18px;line-height:1.3}
+.tema{display:inline-block;background:var(--areia);color:var(--oliva);font-size:13px;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;border-radius:99px;margin-bottom:10px}
+.medidor{height:16px;border-radius:99px;background:linear-gradient(90deg,#c7795a,#e0b861,#7e9a6b);position:relative;margin:26px 0 8px}
+.medidor i{position:absolute;top:-7px;width:6px;height:30px;background:var(--verde);border-radius:3px;left:0;transition:left 1s cubic-bezier(.2,.8,.2,1)}
+.escala{display:flex;justify-content:space-between;font-size:13px;color:#7b857e}
+.nivel{font-family:Georgia,serif;font-size:28px;color:var(--verde);margin-top:6px}
+.pontos{display:flex;gap:8px;margin:10px 0}
+.pontos div{flex:1;background:var(--areia);border-radius:12px;padding:10px;text-align:center;font-size:14px}
+.pontos b{display:block;font-size:22px;color:var(--verde);font-family:Georgia,serif}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topo"><a class="voltar" href="index.html" aria-label="Voltar">‹</a><div class="nome">Clima da sua equipe</div></div>
+  <div id="app"></div>
+  <p class="aviso">Orientação geral, sem diagnóstico. Não substitui consultoria ou avaliação profissional.</p>
+  <p class="rodape">Feito por Eve, imagem e marca</p>
+</div>
+<script>
+var WA='cadastro.html?i=Consultoria%20de%20RH%20%2F%20NR-1&m=';
+var OPC=['Nunca','Às vezes','Quase sempre','Sempre'];
+var Q=[
+['Comunicação','As pessoas da minha equipe falam abertamente quando algo não vai bem.'],
+['Carga de trabalho','Os prazos e as metas cabem na jornada real de trabalho.'],
+['Reconhecimento','Eu reconheço o que cada pessoa faz de bom, de forma específica.'],
+['Clareza','Cada pessoa sabe exatamente o que se espera dela.'],
+['Relações','O convívio entre colegas é respeitoso, mesmo nos desacordos.'],
+['Autonomia','As pessoas têm liberdade para decidir como fazer o próprio trabalho.'],
+['Equilíbrio','A equipe consegue descansar e se desconectar fora do horário.'],
+['Liderança','Eu dou feedback com clareza e respeito, sem esperar acumular.']
+];
+var DICA={
+'Comunicação':'Abra 10 minutos por semana para a equipe falar, sem pauta e sem julgamento.',
+'Carga de trabalho':'Reveja prazos e metas junto com a equipe e combine o que pode esperar.',
+'Reconhecimento':'Elogie algo específico por dia. Dizer o que foi bom e por quê faz diferença.',
+'Clareza':'Escreva em uma frase o que se espera de cada função e confirme com a pessoa.',
+'Relações':'Combine acordos simples de convivência e retome-os quando surgir um conflito.',
+'Autonomia':'Defina o resultado esperado e deixe o caminho aberto para a pessoa escolher.',
+'Equilíbrio':'Evite mensagens fora do horário e mostre, na prática, que pausas fazem parte.',
+'Liderança':'Use o formato: o que aconteceu, qual o impacto e qual o próximo passo.'
+};
+var i=0,resp=[];
+var app=document.getElementById('app');
+function tela(){
+  if(i>=Q.length)return fim();
+  var p=Math.round(i/Q.length*100);
+  var h='<div class="fade"><div class="barra"><i style="width:'+p+'%"></i></div>';
+  h+='<span class="tema">'+Q[i][0]+' · '+(i+1)+' de '+Q.length+'</span>';
+  h+='<div class="pergunta">'+Q[i][1]+'</div>';
+  OPC.forEach(function(o,k){h+='<button class="opcao" data-v="'+k+'">'+o+'</button>'});
+  h+='</div>';app.innerHTML=h;
+  app.querySelectorAll('.opcao').forEach(function(b){b.onclick=function(){b.classList.add('sel');resp[i]=+b.dataset.v;setTimeout(function(){i++;tela()},220)}});
+}
+function fim(){
+  var s=resp.reduce(function(a,b){return a+b},0),max=Q.length*3,pct=Math.round(s/max*100);
+  var nivel,msg;
+  if(pct<40){nivel='Pede atenção';msg='Há pontos importantes para olhar com cuidado. Pequenos ajustes já ajudam.'}
+  else if(pct<72){nivel='Em construção';msg='Há bases boas e espaço para evoluir. Escolha um ponto e comece por ele.'}
+  else{nivel='Caminho sólido';msg='Sua equipe parece caminhar bem. Vale manter e fortalecer o que já funciona.'}
+  var idx=Q.map(function(q,k){return {t:q[0],v:resp[k]}}).sort(function(a,b){return a.v-b.v}).slice(0,2);
+  var h='<div class="fade"><div class="barra"><i style="width:100%"></i></div><span class="tema">Seu resultado</span>';
+  h+='<div class="nivel">'+nivel+'</div><p>'+msg+'</p>';
+  h+='<div class="medidor"><i id="ag"></i></div><div class="escala"><span>Atenção</span><span>Construção</span><span>Sólido</span></div>';
+  h+='<div class="pontos"><div><b>'+pct+'%</b>do clima ideal</div><div><b>'+idx[0].t+'</b>ponto de atenção</div></div>';
+  h+='<h2 style="margin-top:18px">Por onde começar</h2>';
+  idx.forEach(function(x){h+='<div class="card"><h3>'+x.t+'</h3><p>'+DICA[x.t]+'</p></div>'});
+  var txt=encodeURIComponent('Olá, Cristiane! Fiz o quiz Clima da sua equipe e tirei '+pct+'% ('+nivel+'). Quero conversar.');
+  h+='<a class="btn ouro" href="'+WA+txt+'">Quero falar com a Cris</a>';
+  h+='<button class="btn claro" id="de">Refazer o quiz</button></div>';
+  app.innerHTML=h;
+  setTimeout(function(){document.getElementById('ag').style.left='calc('+Math.max(1,Math.min(97,pct))+'% - 3px)'},80);
+  document.getElementById('de').onclick=function(){i=0;resp=[];tela()};
+}
+tela();
+</script>
+</body>
+</html>

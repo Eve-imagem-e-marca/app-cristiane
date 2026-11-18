@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Cristiane Santana | Psicóloga</title>
+<meta name="theme-color" content="#1f4030">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Cristiane Santana">
+<link rel="stylesheet" href="style.css">
+<style>
+.hero{text-align:center;padding-top:6px}
+.hero img{width:150px;height:150px;border-radius:50%;object-fit:cover;object-position:50% 18%;border:4px solid var(--branco);box-shadow:0 6px 22px rgba(31,64,48,.18)}
+.hero h1{margin-top:14px}
+.hero .crp{font-size:14px;letter-spacing:2px;color:#7b857e;margin-top:6px}
+.hero .frase{font-family:Georgia,serif;font-size:21px;color:var(--oliva);margin:14px 0 6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0 4px}
+.chips span{background:var(--areia);color:var(--verde);font-size:14px;padding:6px 12px;border-radius:99px}
+h2.t{margin:26px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero fade">
+    <img src="foto.jpg" alt="Cristiane Santana">
+    <h1>Cristiane M. Santana</h1>
+    <div class="crp">PSICÓLOGA CLÍNICA E ORGANIZACIONAL · CRP 06/229662</div>
+    <p class="frase">Mente, propósito e resultados.</p>
+    <div class="chips"><span>Santo André</span><span>Presencial e online</span></div>
+    <a class="btn ouro" href="cadastro.html?i=Psicoterapia">Agendar atendimento</a>
+  </div>
+
+  <h2 class="t">Ferramentas para líderes</h2>
+  <a class="ferramenta" href="quiz.html"><div class="ico">🌿</div><div><b>Clima da sua equipe</b><span>Quiz de 2 minutos</span></div><div class="seta">›</div></a>
+  <a class="ferramenta" href="nr1.html"><div class="ico">✅</div><div><b>Preparo para a NR-1</b><span>Checklist com resultado</span></div><div class="seta">›</div></a>
+  <a class="ferramenta" href="desafio.html"><div class="ico">🗓️</div><div><b>Desafio de 7 dias</b><span>Um passo por dia, com presente no fim</span></div><div class="seta">›</div></a>
+
+  <h2 class="t">Como posso ajudar</h2>
+  <details><summary>Psicoterapia clínica</summary><p>Atendimento individual para adolescentes, adultos e idosos. Presencial e online.</p></details>
+  <details><summary>Psicologia organizacional</summary><p>Projetos de clima, cultura, liderança, engajamento e desenvolvimento de equipes.</p></details>
+  <details><summary>Consultorias de RH</summary><p>Estratégias em gestão de pessoas, processos, carreiras, recrutamento e desenvolvimento organizacional.</p></details>
+  <details><summary>Palestras e treinamentos</summary><p>Temas atuais, com conteúdo prático, para empresas, eventos e instituições.</p></details>
+  <details><summary>Mentoria de lideranças</summary><p>Acompanhamento personalizado para líderes.</p></details>
+
+  <details><summary>Sobre a Cris</summary>
+    <p>Psicóloga Clínica e Organizacional (CRP 06/229662), consultora de RH e palestrante. Promove saúde mental, desenvolvimento humano e performance organizacional com ética, ciência e sensibilidade.</p>
+    <ul><li>Mais de 10 anos de experiência</li><li>Atuação clínica e corporativa</li><li>Palestras e treinamentos personalizados</li></ul>
+  </details>
+
+  <a class="btn claro" href="cadastro.html">Falar com a Cris</a>
+
+  <details style="margin-top:22px"><summary>📲 Deixe o app no seu celular</summary>
+    <p><b>iPhone:</b> abra no Safari, toque em Compartilhar e depois em "Adicionar à Tela de Início".</p>
+    <p><b>Android:</b> abra no Chrome, toque nos três pontinhos e depois em "Instalar aplicativo".</p>
+  </details>
+
+  <p class="aviso">Conteúdo de orientação geral. Não substitui atendimento psicológico nem consultoria.</p>
+  <p class="rodape">Feito por Eve, imagem e marca</p>
+</div>
+<script>
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){})}
+document.querySelectorAll('details').forEach(function(d){d.addEventListener('toggle',function(){if(d.open)document.querySelectorAll('details').forEach(function(o){if(o!==d)o.open=false})})});
+</script>
+</body>
+</html>
