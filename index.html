@@ -37,6 +37,8 @@ h2.t{margin:26px 0 12px}
   <a class="ferramenta" href="nr1.html"><div class="ico">✅</div><div><b>Preparo para a NR-1</b><span>Checklist com resultado</span></div><div class="seta">›</div></a>
   <a class="ferramenta" href="desafio.html"><div class="ico">🗓️</div><div><b>Desafio de 7 dias</b><span>Um passo por dia, com presente no fim</span></div><div class="seta">›</div></a>
 
+  <div id="vd"></div>
+
   <h2 class="t">Como posso ajudar</h2>
   <details><summary>Psicoterapia clínica</summary><p>Atendimento individual para adolescentes, adultos e idosos. Presencial e online.</p></details>
   <details><summary>Psicologia organizacional</summary><p>Projetos de clima, cultura, liderança, engajamento e desenvolvimento de equipes.</p></details>
@@ -59,7 +61,9 @@ h2.t{margin:26px 0 12px}
   <p class="aviso">Conteúdo de orientação geral. Não substitui atendimento psicológico nem consultoria.</p>
   <p class="rodape">Feito por Eve, imagem e marca</p>
 </div>
+<script src="videos.js"></script>
 <script>
+if(VIDEOS.length)document.getElementById('vd').innerHTML='<a class="ferramenta" href="videos.html"><div class="ico">▶️</div><div><b>Vídeos da Cris</b><span>Assista e conheça o trabalho</span></div><div class="seta">›</div></a>';
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){})}
 document.querySelectorAll('details').forEach(function(d){d.addEventListener('toggle',function(){if(d.open)document.querySelectorAll('details').forEach(function(o){if(o!==d)o.open=false})})});
 </script>

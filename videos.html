@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Vídeos da Cris</title>
+<meta name="theme-color" content="#1f4030">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="stylesheet" href="style.css">
+<style>.vid{position:relative;padding-top:56.25%;border-radius:14px;overflow:hidden;background:#000;margin:10px 0 18px}.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topo"><a class="voltar" href="index.html" aria-label="Voltar">‹</a><div class="nome">Vídeos da Cris</div></div>
+  <div id="lista"></div>
+  <p class="rodape">Feito por Eve, imagem e marca</p>
+</div>
+<script src="videos.js"></script>
+<script>
+var l=document.getElementById('lista');
+if(!VIDEOS.length){l.innerHTML='<p>Em breve, novos vídeos por aqui.</p>'}
+VIDEOS.forEach(function(v){l.insertAdjacentHTML('beforeend','<h3>'+v.t+'</h3><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/'+v.id+'" title="'+v.t+'" loading="lazy" allowfullscreen></iframe></div>')});
+</script>
+</body>
+</html>
