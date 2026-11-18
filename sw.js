@@ -1,4 +1,4 @@
-var C='cs-v2';
+var C='cs-v3';
 var A=['./','index.html','quiz.html','nr1.html','desafio.html','cadastro.html','videos.html','videos.js','style.css','foto.jpg','icon-192.png'];
 self.addEventListener('install',function(e){e.waitUntil(caches.open(C).then(function(c){return c.addAll(A)}));self.skipWaiting()});
 self.addEventListener('activate',function(e){e.waitUntil(caches.keys().then(function(k){return Promise.all(k.filter(function(x){return x!==C}).map(function(x){return caches.delete(x)}))}));self.clients.claim()});
