@@ -53,6 +53,13 @@ h2.t{margin:26px 0 12px}
 
   <a class="btn claro" href="cadastro.html">Falar com a Cris</a>
 
+  <details><summary>🔗 Compartilhar o app</summary>
+    <p style="text-align:center">Aponte a câmera do celular para o QR Code.</p>
+    <img src="qr.png" alt="QR Code do app" style="width:220px;max-width:100%;display:block;margin:8px auto;border-radius:12px">
+    <button class="btn" id="comp">Compartilhar o link</button>
+    <a class="btn claro" href="qr.png" download="qr-cristiane.png">Baixar o QR Code</a>
+  </details>
+
   <details style="margin-top:22px"><summary>📲 Deixe o app no seu celular</summary>
     <p><b>iPhone:</b> abra no Safari, toque em Compartilhar e depois em "Adicionar à Tela de Início".</p>
     <p><b>Android:</b> abra no Chrome, toque nos três pontinhos e depois em "Instalar aplicativo".</p>
@@ -64,6 +71,7 @@ h2.t{margin:26px 0 12px}
 <script src="videos.js"></script>
 <script>
 if(VIDEOS.length)document.getElementById('vd').innerHTML='<a class="ferramenta" href="videos.html"><div class="ico">▶️</div><div><b>Vídeos da Cris</b><span>Assista e conheça o trabalho</span></div><div class="seta">›</div></a>';
+document.getElementById('comp').onclick=function(){var u='https://eve-imagem-e-marca.github.io/app-cristiane/';if(navigator.share){navigator.share({title:'Cristiane Santana | Psicóloga',url:u}).catch(function(){})}else{try{navigator.clipboard.writeText(u);this.textContent='Link copiado!'}catch(e){prompt('Copie o link:',u)}}};
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){})}
 document.querySelectorAll('details').forEach(function(d){d.addEventListener('toggle',function(){if(d.open)document.querySelectorAll('details').forEach(function(o){if(o!==d)o.open=false})})});
 </script>
